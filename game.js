@@ -48,8 +48,8 @@ const animatePress = currentColor => {
 $(document).keypress(function() {
     if (!gameHasStarted) {
         nextSequence();
+        gameHasStarted = true;
     }
-    gameHasStarted = true;
 });
 
 const checkAnswer = currentLevel => {
@@ -62,5 +62,24 @@ const checkAnswer = currentLevel => {
                 nextSequence();
             }, 1000);
         }
-    } else console.log('Failure');
+    } else {
+        gameOver();
+    }
+}
+
+const gameOver = () => {
+    console.log('Failure');
+    playSound('wrong');
+    $('body').addClass('game-over');
+    setTimeout(function() {
+        $('body').removeClass('game-over')
+    }, 200);
+    $('#level-title').text('Game Over, Press Any Key to Restart');
+    startOver();
+}
+
+const startOver = () => {
+    gamePattern= [];
+    level = 0;
+    gameHasStarted = false;
 }
